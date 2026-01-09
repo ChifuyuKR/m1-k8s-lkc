@@ -24,11 +24,11 @@ spec:
           valueFrom:  
             configMapKeyRef:  
               name: kubeshop-api-config  
-              key: message  
+              key: KB_MESSAGE  
         - name: FEATURE_FLAGS  
           valueFrom:  
             configMapKeyRef:  
-              name: kubehop-api-config  
+              name: kubeshop-api-config  
               key: feature-flags  
         - name: DB_PASSWORD  
           valueFrom:  
@@ -40,5 +40,5 @@ spec:
             secretKeyRef:  
               name: kubeshop-api-secret  
               key: api-key  
-        - name: DB_HOST  
-          value: "shop-db"
+        - name: DB_HOST
+          value: "kubeshop-db"
