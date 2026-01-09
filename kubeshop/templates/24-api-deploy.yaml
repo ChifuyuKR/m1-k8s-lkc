@@ -4,7 +4,7 @@ metadata:
   name: kubeshop-api
   namespace: kubeshop-lkc
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: kubeshop-api
@@ -17,21 +17,10 @@ spec:
     spec:
       containers:
         - name: api
-          image: python:3.11-alpine
-          command: ["python", "-m", "http.server", "80", "--directory", "/app"]
+          image: ealen/echo-server:latest
           ports:
             - name: http
-              containerPort: 80
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 80
-            initialDelaySeconds: 5
-            periodSeconds: 5
-          volumeMounts:
-            - name: api-content
-              mountPath: /app
-      volumes:
-        - name: api-content
-          configMap:
-            name: kubeshop-api-config
+              containerPort: 8080
+          env:
+            - name: PORT
+              value: "8080"
