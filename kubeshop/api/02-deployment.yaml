@@ -1,0 +1,44 @@
+apiVersion: apps/v1  
+kind: Deployment  
+metadata:  
+  name: kubeshop-api  
+  namespace: default  
+spec:  
+  replicas: 2  
+  selector:  
+    matchLabels:  
+      app: kubeshop-api  
+  template:  
+    metadata:  
+      labels:  
+        app: kubeshop-api  
+    spec:  
+      serviceAccountName: shop-ops  
+      containers:  
+      - name: echo-server  
+        image: ealen/echo-server:latest  
+        ports:  
+        - containerPort: 8080  
+        env:  
+        - name: MESSAGE  
+          valueFrom:  
+            configMapKeyRef:  
+              name: shop-api-config  
+              key: message  
+        - name: FEATURE_FLAGS  
+          valueFrom:  
+            configMapKeyRef:  
+              name: shop-api-config  
+              key: feature-flags  
+        - name: DB_PASSWORD  
+          valueFrom:  
+            secretKeyRef:  
+              name: shop-db-secret  
+              key: postgres-password  
+        - name: API_KEY  
+          valueFrom:  
+            secretKeyRef:  
+              name: shop-api-secret  
+              key: api-key  
+        - name: DB_HOST  
+          value: "shop-db"
