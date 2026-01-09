@@ -28,7 +28,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: kubeshop-db-secret
-                  key: password
+                  key: postgres-password
             - name: POSTGRES_DB
               value: "kbdb"
           readinessProbe:

@@ -4,7 +4,7 @@ metadata:
   name: kubeshop-db-pvc
   namespace: kubeshop-lkc
 spec:
-  storageClassName: local-path
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   resources:
