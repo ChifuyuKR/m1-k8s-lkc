@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubeshop-api-config
+  namespace: kubeshop-lkc
+data:
+  KB_MESSAGE: "Kubeshop Message test"
+  DB_HOST: "kubeshop-db"
+  DB_PORT: "5432"
+  API_KEY_PATH: "/run/secrets/api_key" 

@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeshop-db
+  namespace: kubeshop-lkc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kubeshop-db
+  template:
+    metadata:
+      labels:
+        app: kubeshop-db
+        tier: data
+    spec:
+      securityContext:
+        fsGroup: 999
+      containers:
+        - name: postgres
+          image: postgres:16-alpine
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: "kb"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kubeshop-db-secret
+                  key: password
+            - name: POSTGRES_DB
+              value: "kbdb"
+          readinessProbe:
+            exec:
+              command: ["sh", "-c", "pg_isready -U kb -d kbdb"]
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 5
+          volumeMounts:
+            - name: pgdata
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: pgdata
+          persistentVolumeClaim:
+            claimName: kubeshop-db-pvc   
