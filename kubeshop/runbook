@@ -1,0 +1,42 @@
+Vérifier l'état général
+- Déployer / pods / services:  
+	kubectl -n <ns> get all
+- Ingress / Service / Endpoints:  
+	kubectl -n <ns> get ingress,svc,endpoints
+- Détails d'un Pod:  
+	kubectl -n <ns> describe pod <pod>
+
+Erreur 404 / 503 via Ingress
+- Vérifier les règles Ingress (host, path) et les annotations.  
+	kubectl -n <ns> describe ingress <ingress>
+- Vérifier que le Service a le bon selector:  
+	kubectl -n <ns> get svc <service> -o yaml
+- Vérifier Endpoints  
+	kubectl -n <ns> get endpoints <service>
+- Vérifier Pods Ready / Ports:  
+	kubectl -n <ns> get pods -o wide
+
+CrashLoopBackOff / redémarrages
+- Récupérer les logs récents et précédents:  
+	kubectl -n <ns> logs <pod> --container=<c>  
+	kubectl -n <ns> logs <pod> --previous --container=<c>
+- describe pour events  
+	kubectl -n <ns> describe pod <pod>
+- Vérifier ConfigMap/Secret montés et variables d'env:  
+	kubectl -n <ns> get cm,secret <name> -o yaml
+
+Pod Pending
+- Obtenir description complète
+	kubectl -n <ns> describe pod
+- Si lié au stockage: vérifier PVC / StorageClass / PV:  
+	kubectl -n <ns> get pvc
+	kubectl get storageclass
+	kubectl -n <ns> describe pvc
+- Consulter events triés par timestamp:  
+	kubectl -n <ns> get events --sort-by=.lastTimestamp
+
+Problème RBAC (Forbidden / access denied)
+- Message d'erreur typique: Forbidden ("RBAC: ...")
+- Vérifier les droits du ServiceAccount avec `kubectl auth can-i`:  
+kubectl -n auth can-i get pods \ --as=system:serviceaccount::-ops
+

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment  
 metadata:  
   name: kubeshop-api  
-  namespace: default  
+  namespace: kubeshop-lkc  
 spec:  
   replicas: 2  
   selector:  
@@ -23,22 +23,22 @@ spec:
         - name: MESSAGE  
           valueFrom:  
             configMapKeyRef:  
-              name: shop-api-config  
+              name: kubeshop-api-config  
               key: message  
         - name: FEATURE_FLAGS  
           valueFrom:  
             configMapKeyRef:  
-              name: shop-api-config  
+              name: kubehop-api-config  
               key: feature-flags  
         - name: DB_PASSWORD  
           valueFrom:  
             secretKeyRef:  
-              name: shop-db-secret  
+              name: kubeshop-db-secret  
               key: postgres-password  
         - name: API_KEY  
           valueFrom:  
             secretKeyRef:  
-              name: shop-api-secret  
+              name: kubeshop-api-secret  
               key: api-key  
         - name: DB_HOST  
           value: "shop-db"
