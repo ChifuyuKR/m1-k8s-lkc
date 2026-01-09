@@ -15,6 +15,10 @@ spec:
         app: kubeshop-web
         component: web
     spec:
+      securityContext:
+        fsGroup: 101
+        runAsUser: 101
+        runAsNonRoot: false
       containers:
         - name: web
           image: nginx:1.27-alpine
@@ -25,13 +29,19 @@ spec:
             httpGet:
               path: /
               port: 8080
-            initialDelaySeconds: 2
+            initialDelaySeconds: 5
             periodSeconds: 5
+            failureThreshold: 3
           volumeMounts:
             - name: web-content
               mountPath: /usr/share/nginx/html
             - name: web-nginx
               mountPath: /etc/nginx/conf.d
+              readOnly: false
+            - name: nginx-cache
+              mountPath: /var/cache/nginx
+            - name: nginx-run
+              mountPath: /var/run
       volumes:
         - name: web-content
           configMap:
@@ -39,3 +49,7 @@ spec:
         - name: web-nginx
           configMap:
             name: kubeshop-web-nginx
+        - name: nginx-cache
+          emptyDir: {}
+        - name: nginx-run
+          emptyDir: {}
