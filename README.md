@@ -1,4 +1,4 @@
-# 🛒 Projet KubeShop (m1-k8s-lkc)
+#  Projet KubeShop (m1-k8s-lkc)
 
 Sujet B - Kubeshop
 
@@ -6,7 +6,7 @@ Groupe : Loris - Kyllian - Corentin
 
 Ce projet déploie une architecture micro-services complète sur Kubernetes via Helm. L'objectif est de simuler une boutique en ligne avec un frontend statique, une API de backend et une base de données persistante, le tout sécurisé par des politiques RBAC et exposé via un Ingress.
 
-# 🏗️ Architecture du projet
+#  Architecture du projet
 
 L'application est isolée dans le namespace kubeshop-lkc et se compose de :
 
@@ -18,7 +18,7 @@ Base de données (shop-db) : Instance PostgreSQL 16. La persistance est assurée
 
 Ingress : Un point d'entrée unique via l'hôte kubeshop.local.
 
-# 🌐 Focus sur l'Ingress (Routage)
+#  Focus sur l'Ingress (Routage)
 
 L'Ingress agit comme un Reverse Proxy à l'entrée du cluster. Il utilise des expressions régulières pour diriger le trafic vers le bon service :
 
@@ -37,7 +37,7 @@ Tester l'accès (si kubeshop.local est configuré dans votre /etc/hosts) :
 curl -i http://kubeshop.local/      # Accès Web
 curl -i http://kubeshop.local/api/  # Accès API
 ```
-# ⚙️ Focus sur l'API (Configuration)
+#  Focus sur l'API (Configuration)
 
 L'API (kubeshop-api) illustre la séparation entre le code et la configuration. Au lieu d'écrire les messages en dur, elle utilise une ConfigMap (kubeshop-api-config).
 
@@ -52,7 +52,7 @@ kubectl -n kubeshop-lkc exec -it deploy/kubeshop-api -- ls -la /app
 kubectl -n kubeshop-lkc exec -it deploy/kubeshop-api -- cat /app/KB_MESSAGE
 ```
 
-# 🔐 Focus sur le RBAC (Sécurité)
+#  Focus sur le RBAC (Sécurité)
 
 Le projet implémente le principe du moindre privilège via un ServiceAccount dédié.
 
@@ -70,7 +70,7 @@ kubectl -n kubeshop-lkc auth can-i list pods --as=system:serviceaccount:kubeshop
 
 kubectl -n kubeshop-lkc auth can-i delete pods --as=system:serviceaccount:kubeshop-lkc:shop-ops
 ```
-# 💾 Persistance et Nettoyage
+#  Persistance et Nettoyage
 
 ```
 Vérification du stockage :
