@@ -1,4 +1,21 @@
 kubectl get all -n kubeshop-lkc
 kubectl -n ingress-nginx port-forward svc/ingress-nginx-controller 8080:80
+
 curl -i -H "Host: kubeshop.local" http://localhost:8080/
 curl -i -H "Host: kubeshop.local" http://localhost:8080/api/
+
+curl -I --header 'X-ECHO-CODE: 404' -H "Host: kubeshop.local"  http://localhost:8080/api/ 
+
+
+curl -I --header 'X-ECHO-FILE: /' -H "Host: kubeshop.local"  http://localhost:8080/api/
+curl -H "Host: kubeshop.local"  "http://localhost:8080/api/?echo_file=/"
+
+RBAC : 
+
+# Vérifier qu'on peut lister les pods (Autorisé)
+
+kubectl -n kubeshop-lkc auth can-i list pods --as=system:serviceaccount:kubeshop-lkc:shop-ops
+
+# Vérifier qu'on NE PEUT PAS supprimer un pod (Interdit)
+
+kubectl -n kubeshop-lkc auth can-i delete pods --as=system:serviceaccount:kubeshop-lkc:shop-ops
