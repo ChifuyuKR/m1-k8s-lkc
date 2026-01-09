@@ -12,6 +12,7 @@ spec:
     metadata:
       labels:
         app: kubeshop-api
+        component: api # fix
     spec:
       serviceAccountName: shop-ops
       containers:
