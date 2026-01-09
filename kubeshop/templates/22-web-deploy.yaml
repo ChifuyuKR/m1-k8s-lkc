@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeshop-web
+  namespace: kubeshop-lkc
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kubeshop-web
+      component: web
+  template:
+    metadata:
+      labels:
+        app: kubeshop-web
+        component: web
+    spec:
+      containers:
+        - name: web
+          image: nginx:1.27-alpine
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          volumeMounts:
+            - name: web-content
+              mountPath: /usr/share/nginx/html
+            - name: web-nginx
+              mountPath: /etc/nginx/conf.d
+      volumes:
+        - name: web-content
+          configMap:
+            name: kubeshop-web-content
+        - name: web-nginx
+          configMap:
+            name: kubeshop-web-nginx

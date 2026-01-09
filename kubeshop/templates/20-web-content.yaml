@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubeshop-web-content
+  namespace: kubeshop-lkc
+data:
+  index.html: |
+    <!doctype html>
+    <html lang="fr">
+      <head>
+        <meta charset="utf-8"/>
+        <title>kubeshop</title>
+      </head>
+      <body>
+        <h1>Binevenue chez Kubeshop</h1>
+        <p>Ici tout les goodies pour votre passion Kubernetes  !!</p>
+        <ul>
+          <li><code>/</code> : Accueil</li>
+        </ul>
+      </body>
+    </html>
